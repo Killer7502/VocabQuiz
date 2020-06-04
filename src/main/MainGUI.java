@@ -51,7 +51,7 @@ public class MainGUI {
 			public void run() {
 				try {
 					MainGUI window = new MainGUI();
-					window.frame.setVisible(true);
+					window.frameMain.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -179,6 +179,8 @@ public class MainGUI {
 		//If currentNum is greater than or equal to the arraySize, end the game as all words have been completed.
 		if (currentNum >= jpArray.size()) {
 			JOptionPane.showMessageDialog(frameMain, "Game Complete");
+			textAnswer.setText("");
+			textWord.setText("");
 			started = false;
 		}
 		//If currentNum is smaller than the arraySize, load the next word for the user to translate.
