@@ -35,8 +35,11 @@ public class MainGUI {
 
 	private JFrame frame;
 	
-	private ArrayList<String> enArray;
-	private ArrayList<String> jpArray;
+	private ArrayList<String> enArray; //Array to hold English words
+	private ArrayList<String> jpArray; //Array to hold Japanese words
+	
+	private Boolean started = false; //Determines if the game is started or not.
+	private int currentNum = 0; //Num to hold which array item the game is currently on.
 
 	/**
 	 * Launch the application.
@@ -66,7 +69,7 @@ public class MainGUI {
 	//Handles all events for the program
 	private void createEvents() {
 		
-		
+		//Load an existing vocabulary list in the form of a text file.
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int fileChooserVal = fileChooser.showOpenDialog(frameMain);
@@ -80,11 +83,13 @@ public class MainGUI {
 				if (fileChooserVal == JFileChooser.APPROVE_OPTION) {
 					readFile = fileChooser.getSelectedFile();
 					
+					//If the file can be read from
 					if (readFile.canRead()) {
 						try {
 								fileInput = new FileInputStream(readFile);
 								inFS = new Scanner(fileInput);
 								
+								//Populatee the en and jp arrays based off the data in the text file
 								while (inFS.hasNext()) {
 									readLine = inFS.nextLine();
 									
@@ -94,17 +99,50 @@ public class MainGUI {
 									Arrays.fill(tempArray, ""); 
 								}
 						}
+						//If an issue arises when trying to open/read the file
 						catch (IOException e) {
 							JOptionPane.showMessageDialog(frameMain, e);
 						}
 					}
+					//If the file can't be read from at all or if it's empty
 					else {
 						JOptionPane.showMessageDialog(frameMain, "File can't be opened or read from. Please try a different file");
 					}
 				}
+				//Tell user that the data is loaded. FIXME: Fix to show when the data fails to load vs. when it actually loads
 				JOptionPane.showMessageDialog(frameMain, "Data Loaded");
 			}
 		});
+		
+		
+		//Starts the game if the game isn't already running. FIXME: Add in the ability to check if an vocabulary array is loaded or not
+		btnStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Game not already running
+				if (started == false) {
+					JOptionPane.showMessageDialog(frameMain, "Starting game");
+					startGame();
+				}
+				//Game already running
+				else {
+					JOptionPane.showMessageDialog(frameMain, "Game already in progress");
+				}
+			}
+		});
+		
+		//Quits the program
+		btnQuit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frameMain.dispose();
+			}
+		});
+	}
+	
+	//Starts the game. FIXME: Add in the ability to check if an vocabulary array is loaded or not
+	private void startGame() {
+		currentNum = 0;
+		textWord.setText(jpArray.get(currentNum));
+		started = true;
 	}
 
 	/**
