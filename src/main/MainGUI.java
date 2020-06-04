@@ -2,11 +2,20 @@ package main;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -25,6 +34,9 @@ public class MainGUI {
 	private JFileChooser fileChooser;
 
 	private JFrame frame;
+	
+	private ArrayList<String> enArray;
+	private ArrayList<String> jpArray;
 
 	/**
 	 * Launch the application.
@@ -47,6 +59,52 @@ public class MainGUI {
 	 */
 	public MainGUI() {
 		initialize();
+		createEvents();
+	}
+	
+	
+	//Handles all events for the program
+	private void createEvents() {
+		
+		
+		btnLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int fileChooserVal = fileChooser.showOpenDialog(frameMain);
+				File readFile = null;
+				Scanner inFS = null;
+				FileInputStream fileInput = null; 
+				String readLine = null;
+				enArray = new ArrayList<String>();
+				jpArray = new ArrayList<String>();
+				
+				if (fileChooserVal == JFileChooser.APPROVE_OPTION) {
+					readFile = fileChooser.getSelectedFile();
+					
+					if (readFile.canRead()) {
+						try {
+								fileInput = new FileInputStream(readFile);
+								inFS = new Scanner(fileInput);
+								
+								while (inFS.hasNext()) {
+									readLine = inFS.nextLine();
+									
+									String[] tempArray = readLine.split(":", 2);
+									enArray.add(tempArray[1]);
+									jpArray.add(tempArray[0]);
+									Arrays.fill(tempArray, ""); 
+								}
+						}
+						catch (IOException e) {
+							JOptionPane.showMessageDialog(frameMain, e);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(frameMain, "File can't be opened or read from. Please try a different file");
+					}
+				}
+				JOptionPane.showMessageDialog(frameMain, "Data Loaded");
+			}
+		});
 	}
 
 	/**
