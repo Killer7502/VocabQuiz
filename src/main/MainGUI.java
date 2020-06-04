@@ -40,6 +40,8 @@ public class MainGUI {
 	
 	private Boolean started = false; //Determines if the game is started or not.
 	private int currentNum = 0; //Num to hold which array item the game is currently on.
+	int numWrong = 0; //Num to keep track of the number of wrong answers in a row.
+	int numCorrect = 0; //Num to keep track of the number of correct answers in a row.
 
 	/**
 	 * Launch the application.
@@ -136,6 +138,32 @@ public class MainGUI {
 				frameMain.dispose();
 			}
 		});
+		
+		//Checks the textAnswer TextBox to see if it matches the current element in the English array.
+		btnCheck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//If game is started
+				if (started == true) {			
+					//If the user's answer equals the element stored in the English array
+					if (enArray.get(findElement(jpArray, textWord.getText())).equals(textAnswer.getText())) {
+						numWrong = 0;
+						numCorrect++;
+						textOutput.setText("Correct: " + numCorrect);
+						nextWord(); //Load next word
+					}
+					//If user's answer isn't correct
+					else {
+						numCorrect = 0;
+						numWrong++;
+						textOutput.setText("Incorrect: " + numWrong);
+					}
+				}
+				//If game is not started
+				else {
+					JOptionPane.showMessageDialog(frameMain, "Game not in progress");
+				}
+			}
+		});
 	}
 	
 	//Starts the game. FIXME: Add in the ability to check if an vocabulary array is loaded or not
@@ -143,6 +171,31 @@ public class MainGUI {
 		currentNum = 0;
 		textWord.setText(jpArray.get(currentNum));
 		started = true;
+	}
+	
+	//Loads the next Japanese word into the textWord TextBox and sets textAnswer to blank
+	private void nextWord() {
+		currentNum++; //Keeps track of the current word that the game is on
+		//If currentNum is greater than or equal to the arraySize, end the game as all words have been completed.
+		if (currentNum >= jpArray.size()) {
+			JOptionPane.showMessageDialog(frameMain, "Game Complete");
+			started = false;
+		}
+		//If currentNum is smaller than the arraySize, load the next word for the user to translate.
+		else {
+			textWord.setText(jpArray.get(currentNum));
+			textAnswer.setText("");
+		}
+	}
+	
+	//Looks for a matching string in a given array and returns the elements location (number)
+	private int findElement(ArrayList<String> array, String toFind) {
+		for (int i = 0; i < array.size(); i++) {
+			if (toFind.equals(array.get(i))) {
+				return i;
+			}
+		}
+		return -1; //Return -1 if and only if no match is found above. FIXME: Add a catch just in case this case is ever reached.
 	}
 
 	/**
