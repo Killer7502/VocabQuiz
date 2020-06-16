@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -18,6 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 
 public class MainGUI {
 	
@@ -32,8 +36,7 @@ public class MainGUI {
 	private JButton btnCheck;
 	private JLabel lblAnswer;
 	private JFileChooser fileChooser;
-
-	private JFrame frame;
+	private ButtonGroup translateToButtonGroup = new ButtonGroup();
 	
 	private ArrayList<String> enArray; //Array to hold English words
 	private ArrayList<String> jpArray; //Array to hold Japanese words
@@ -42,6 +45,8 @@ public class MainGUI {
 	private int currentNum = 0; //Num to hold which array item the game is currently on.
 	int numWrong = 0; //Num to keep track of the number of wrong answers in a row.
 	int numCorrect = 0; //Num to keep track of the number of correct answers in a row.
+	private JRadioButton rbEnglish;
+	private JRadioButton rbJapanese;
 
 	/**
 	 * Launch the application.
@@ -91,7 +96,7 @@ public class MainGUI {
 								fileInput = new FileInputStream(readFile);
 								inFS = new Scanner(fileInput);
 								
-								//Populatee the en and jp arrays based off the data in the text file
+								//Populate the en and jp arrays based off the data in the text file
 								while (inFS.hasNext()) {
 									readLine = inFS.nextLine();
 									
@@ -242,6 +247,7 @@ public class MainGUI {
 		frameMain.getContentPane().add(btnQuit);
 		
 		btnLoad = new JButton("Load Data");
+		btnLoad.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnLoad.setBounds(102, 98, 89, 23);
 		frameMain.getContentPane().add(btnLoad);
 		
@@ -257,10 +263,24 @@ public class MainGUI {
 		textOutput.setEditable(false);
 		textOutput.setBounds(10, 61, 178, 28);
 		frameMain.getContentPane().add(textOutput);
+		
+		JLabel lblTranslateTo = new JLabel("Translate to:");
+		lblTranslateTo.setBounds(10, 132, 68, 14);
+		frameMain.getContentPane().add(lblTranslateTo);
+		
+		rbEnglish = new JRadioButton("English");
+		rbEnglish.setSelected(true);
+		rbEnglish.setBounds(82, 128, 82, 23);
+		translateToButtonGroup.add(rbEnglish);
+		frameMain.getContentPane().add(rbEnglish);
+		
+		rbJapanese = new JRadioButton("Japanese");
+		rbJapanese.setBounds(166, 128, 89, 23);
+		frameMain.getContentPane().add(rbJapanese);
 		frameMain.setTitle("Vocab");
 		frameMain.setResizable(false);
-		frameMain.setBounds(100, 100, 300, 160);
+		frameMain.setBounds(100, 100, 310, 195);
+		translateToButtonGroup.add(rbJapanese);
 		frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
 }
