@@ -1,0 +1,3 @@
+This program is built to test your vocabulary skills.
+The program loads a vocabulary list from a text document, of which contains a Japanese word and it's English translation.
+The users goal is to give the program the correct English word for a given Japanese word.
