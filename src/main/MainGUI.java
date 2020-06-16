@@ -166,11 +166,18 @@ public class MainGUI {
 		});
 	}
 	
-	//Starts the game. FIXME: Add in the ability to check if an vocabulary array is loaded or not
+	//Starts the game.
 	private void startGame() {
-		currentNum = 0;
-		textWord.setText(jpArray.get(currentNum));
-		started = true;
+		//If no vocab list is loaded, inform the user and tell them to load one before playing.
+		if (jpArray == null) {
+			JOptionPane.showMessageDialog(frameMain, "No vocabulary list loaded!\nLoad a vocabulary list first and try again.");
+		}
+		//If a vocab list is loaded, start the game like normal.
+		else {
+			currentNum = 0;
+			textWord.setText(jpArray.get(currentNum));
+			started = true;
+		}
 	}
 	
 	//Loads the next Japanese word into the textWord TextBox and sets textAnswer to blank
