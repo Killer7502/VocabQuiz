@@ -47,6 +47,7 @@ public class MainGUI {
 	int numCorrect = 0; //Num to keep track of the number of correct answers in a row.
 	private JRadioButton rbEnglish;
 	private JRadioButton rbJapanese;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -304,22 +305,26 @@ public class MainGUI {
 		frameMain.getContentPane().add(textOutput);
 		
 		JLabel lblTranslateTo = new JLabel("Translate to:");
-		lblTranslateTo.setBounds(10, 132, 68, 14);
+		lblTranslateTo.setBounds(10, 132, 83, 14);
 		frameMain.getContentPane().add(lblTranslateTo);
 		
 		rbEnglish = new JRadioButton("English");
 		rbEnglish.setSelected(true);
-		rbEnglish.setBounds(82, 128, 82, 23);
+		rbEnglish.setBounds(99, 128, 82, 23);
 		translateToButtonGroup.add(rbEnglish);
 		frameMain.getContentPane().add(rbEnglish);
 		
 		rbJapanese = new JRadioButton("Japanese");
-		rbJapanese.setBounds(166, 128, 89, 23);
+		rbJapanese.setBounds(183, 128, 89, 23);
 		frameMain.getContentPane().add(rbJapanese);
 		frameMain.setTitle("Vocab");
 		frameMain.setResizable(false);
-		frameMain.setBounds(100, 100, 310, 195);
+		frameMain.setBounds(100, 100, 310, 230);
 		translateToButtonGroup.add(rbJapanese);
+		
+		btnNewButton = new JButton("Show Answer");
+		btnNewButton.setBounds(166, 158, 118, 23);
+		frameMain.getContentPane().add(btnNewButton);
 		frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
