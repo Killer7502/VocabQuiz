@@ -149,19 +149,44 @@ public class MainGUI {
 			public void actionPerformed(ActionEvent arg0) {
 				//If game is started
 				if (started == true) {			
-					//If the user's answer equals the element stored in the English array
-					if (enArray.get(findElement(jpArray, textWord.getText())).equals(textAnswer.getText())) {
-						numWrong = 0;
-						numCorrect++;
-						textOutput.setText("Correct: " + numCorrect);
-						nextWord(); //Load next word
+					
+					//FIXME: Fix the redundant code by combining the below code and having only one if else instead of an if else with nested if else statements.
+					//If translate to English is selected
+					if (rbEnglish.isSelected()) {
+						
+						//If the user's answer equals the element stored in the English array
+						if (enArray.get(findElement(jpArray, textWord.getText())).equals(textAnswer.getText())) { //|| jpArray.get(findElement(enArray, textWord.getText())).equals(textAnswer.getText())) {
+							numWrong = 0;
+							numCorrect++;
+							textOutput.setText("Correct: " + numCorrect);
+							nextWord(); //Load next word
+						}
+						//If user's answer isn't correct
+						else {
+							numCorrect = 0;
+							numWrong++;
+							textOutput.setText("Incorrect: " + numWrong);
+						}
 					}
-					//If user's answer isn't correct
+					
+					//Else translate to Japanese is selected
 					else {
-						numCorrect = 0;
-						numWrong++;
-						textOutput.setText("Incorrect: " + numWrong);
+						
+						//If the user's answer equals the element stored in the Japanese array
+						if (jpArray.get(findElement(enArray, textWord.getText())).equals(textAnswer.getText())) {
+							numWrong = 0;
+							numCorrect++;
+							textOutput.setText("Correct: " + numCorrect);
+							nextWord(); //Load next word
+						}
+						//If user's answer isn't correct
+						else {
+							numCorrect = 0;
+							numWrong++;
+							textOutput.setText("Incorrect: " + numWrong);
+						}
 					}
+					
 				}
 				//If game is not started
 				else {
@@ -180,7 +205,14 @@ public class MainGUI {
 		//If a vocab list is loaded, start the game like normal.
 		else {
 			currentNum = 0;
-			textWord.setText(jpArray.get(currentNum));
+			
+			if (rbEnglish.isSelected()) { //If translate to English is selected, then load the first Japanese word.
+				textWord.setText(jpArray.get(currentNum));
+			}
+			else { //Else translate to Japanese is selected, so load the first English word.
+				textWord.setText(enArray.get(currentNum));
+			}
+			
 			started = true;
 		}
 	}
@@ -193,11 +225,18 @@ public class MainGUI {
 			JOptionPane.showMessageDialog(frameMain, "Game Complete");
 			textAnswer.setText("");
 			textWord.setText("");
+			numWrong = 0;
+			numCorrect = 0;
 			started = false;
 		}
 		//If currentNum is smaller than the arraySize, load the next word for the user to translate.
 		else {
-			textWord.setText(jpArray.get(currentNum));
+			if (rbEnglish.isSelected()) { //If translate to English is selected, then load the next Japanese word.
+				textWord.setText(jpArray.get(currentNum));
+			}
+			else { //Else translate to Japanese is selected, so load the next English word.
+				textWord.setText(enArray.get(currentNum));
+			}
 			textAnswer.setText("");
 		}
 	}
@@ -209,7 +248,7 @@ public class MainGUI {
 				return i;
 			}
 		}
-		return -1; //Return -1 if and only if no match is found above. FIXME: Add a catch just in case this case is ever reached.
+		return 0; //Return 0 if and only if no match is found above. FIXME: Add a catch just in case this case is ever reached.
 	}
 
 	/**
