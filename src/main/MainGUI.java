@@ -47,7 +47,7 @@ public class MainGUI {
 	int numCorrect = 0; //Num to keep track of the number of correct answers in a row.
 	private JRadioButton rbEnglish;
 	private JRadioButton rbJapanese;
-	private JButton btnNewButton;
+	private JButton btnShowAnswer;
 
 	/**
 	 * Launch the application.
@@ -195,6 +195,34 @@ public class MainGUI {
 				}
 			}
 		});
+		
+		//Shows the answer for the current word to the user. Follows up by moving onto the next word in the list.
+		btnShowAnswer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//If game is started
+				if (started == true) {
+					
+					//If translate to English is selected
+					if (rbEnglish.isSelected()) {
+						JOptionPane.showMessageDialog(frameMain, "Answer: " + enArray.get(findElement(jpArray, textWord.getText())));
+					}
+					
+					//Else translate to Japanese is selected
+					else {
+						JOptionPane.showMessageDialog(frameMain, "Answer: " + jpArray.get(findElement(enArray, textWord.getText())));
+					}
+					
+					numCorrect = 0;
+					numWrong++;
+					textOutput.setText("Incorrect: " + numWrong);
+					nextWord();
+				}
+				//If game is not started
+				else {
+					JOptionPane.showMessageDialog(frameMain, "Game not in progress");
+				}
+			}
+		});
 	}
 	
 	//Starts the game.
@@ -322,9 +350,9 @@ public class MainGUI {
 		frameMain.setBounds(100, 100, 310, 230);
 		translateToButtonGroup.add(rbJapanese);
 		
-		btnNewButton = new JButton("Show Answer");
-		btnNewButton.setBounds(166, 158, 118, 23);
-		frameMain.getContentPane().add(btnNewButton);
+		btnShowAnswer = new JButton("Show Answer");
+		btnShowAnswer.setBounds(166, 158, 118, 23);
+		frameMain.getContentPane().add(btnShowAnswer);
 		frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
