@@ -110,8 +110,13 @@ public class MainGUI {
 		btnCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//If game is started
-				if (started == true) {			
-					checkAnswer();
+				if (started == true) {
+					if (rbEnglish.isSelected()) {
+						checkAnswer();
+					}
+					else {
+						checkAnswer();
+					}
 				}
 				//If game is not started
 				else {
@@ -243,7 +248,7 @@ public class MainGUI {
 		}
 	}
 	
-	private void checkAnswer() {
+	private void checkAnswer(ArrayList<String> languageSelected, ArrayList<String> languageShown) {
 		//FIXME: Fix the redundant code by combining the below code and having only one if else instead of an if else with nested if else statements.
 		//If translate to English is selected
 		if (rbEnglish.isSelected()) {
