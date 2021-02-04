@@ -37,8 +37,8 @@ public class MainGUI {
 	private JFileChooser fileChooser;
 	private ButtonGroup translateToButtonGroup = new ButtonGroup();
 	
-	private ArrayList<String> enArray; //Array to hold English words
-	private ArrayList<String> jpArray; //Array to hold Japanese words
+	private ArrayList<String> enArray = new ArrayList<String>(); //Array to hold English words
+	private ArrayList<String> jpArray = new ArrayList<String>(); //Array to hold Japanese words
 	
 	private Boolean started = false; //Determines if the game is started or not.
 	private int currentNum = 0; //Num to hold which array item the game is currently on.
@@ -106,49 +106,12 @@ public class MainGUI {
 			}
 		});
 		
-		//Checks the textAnswer TextBox to see if it matches the current element in the English array.
+		//Check button pressed
 		btnCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//If game is started
 				if (started == true) {			
-					
-					//FIXME: Fix the redundant code by combining the below code and having only one if else instead of an if else with nested if else statements.
-					//If translate to English is selected
-					if (rbEnglish.isSelected()) {
-						
-						//If the user's answer equals the element stored in the English array
-						if (enArray.get(findElement(jpArray, textWord.getText())).equals(textAnswer.getText())) { //|| jpArray.get(findElement(enArray, textWord.getText())).equals(textAnswer.getText())) {
-							numWrong = 0;
-							numCorrect++;
-							textOutput.setText("Correct: " + numCorrect);
-							nextWord(); //Load next word
-						}
-						//If user's answer isn't correct
-						else {
-							numCorrect = 0;
-							numWrong++;
-							textOutput.setText("Incorrect: " + numWrong);
-						}
-					}
-					
-					//Else translate to Japanese is selected
-					else {
-						
-						//If the user's answer equals the element stored in the Japanese array
-						if (jpArray.get(findElement(enArray, textWord.getText())).equals(textAnswer.getText())) {
-							numWrong = 0;
-							numCorrect++;
-							textOutput.setText("Correct: " + numCorrect);
-							nextWord(); //Load next word
-						}
-						//If user's answer isn't correct
-						else {
-							numCorrect = 0;
-							numWrong++;
-							textOutput.setText("Incorrect: " + numWrong);
-						}
-					}
-					
+					checkAnswer();
 				}
 				//If game is not started
 				else {
@@ -246,9 +209,6 @@ public class MainGUI {
 		File readFile = null;
 		Scanner inFS = null;
 		FileInputStream fileInput = null; 
-		String readLine = null;
-		enArray = new ArrayList<String>();
-		jpArray = new ArrayList<String>();
 		
 		if (fileChooserVal == JFileChooser.APPROVE_OPTION) {
 			readFile = fileChooser.getSelectedFile();
@@ -258,7 +218,6 @@ public class MainGUI {
 				try {
 						fileInput = new FileInputStream(readFile);
 						inFS = new Scanner(fileInput);
-						
 						populateLanguageArrays(inFS);
 				}
 				//If an issue arises when trying to open/read the file
@@ -281,6 +240,45 @@ public class MainGUI {
 			enArray.add(tempArray[1]);
 			jpArray.add(tempArray[0]);
 			Arrays.fill(tempArray, ""); 
+		}
+	}
+	
+	private void checkAnswer() {
+		//FIXME: Fix the redundant code by combining the below code and having only one if else instead of an if else with nested if else statements.
+		//If translate to English is selected
+		if (rbEnglish.isSelected()) {
+			
+			//If the user's answer equals the element stored in the English array
+			if (enArray.get(findElement(jpArray, textWord.getText())).equals(textAnswer.getText())) { //|| jpArray.get(findElement(enArray, textWord.getText())).equals(textAnswer.getText())) {
+				numWrong = 0;
+				numCorrect++;
+				textOutput.setText("Correct: " + numCorrect);
+				nextWord(); //Load next word
+			}
+			//If user's answer isn't correct
+			else {
+				numCorrect = 0;
+				numWrong++;
+				textOutput.setText("Incorrect: " + numWrong);
+			}
+		}
+		
+		//Else translate to Japanese is selected
+		else {
+			
+			//If the user's answer equals the element stored in the Japanese array
+			if (jpArray.get(findElement(enArray, textWord.getText())).equals(textAnswer.getText())) {
+				numWrong = 0;
+				numCorrect++;
+				textOutput.setText("Correct: " + numCorrect);
+				nextWord(); //Load next word
+			}
+			//If user's answer isn't correct
+			else {
+				numCorrect = 0;
+				numWrong++;
+				textOutput.setText("Incorrect: " + numWrong);
+			}
 		}
 	}
 
