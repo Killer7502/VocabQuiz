@@ -112,10 +112,10 @@ public class MainGUI {
 				//If game is started
 				if (started == true) {
 					if (rbEnglish.isSelected()) {
-						checkAnswer();
+						checkAnswer(enArray, jpArray);
 					}
 					else {
-						checkAnswer();
+						checkAnswer(jpArray, enArray);
 					}
 				}
 				//If game is not started
@@ -248,42 +248,18 @@ public class MainGUI {
 		}
 	}
 	
-	private void checkAnswer(ArrayList<String> languageSelected, ArrayList<String> languageShown) {
-		//FIXME: Fix the redundant code by combining the below code and having only one if else instead of an if else with nested if else statements.
-		//If translate to English is selected
-		if (rbEnglish.isSelected()) {
-			
-			//If the user's answer equals the element stored in the English array
-			if (enArray.get(findElement(jpArray, textWord.getText())).equals(textAnswer.getText())) { //|| jpArray.get(findElement(enArray, textWord.getText())).equals(textAnswer.getText())) {
-				numWrong = 0;
-				numCorrect++;
-				textOutput.setText("Correct: " + numCorrect);
-				nextWord(); //Load next word
-			}
-			//If user's answer isn't correct
-			else {
-				numCorrect = 0;
-				numWrong++;
-				textOutput.setText("Incorrect: " + numWrong);
-			}
+	private void checkAnswer(ArrayList<String> languageTranslateTo, ArrayList<String> languageTranslateFrom) {
+		if (languageTranslateTo.get(findElement(languageTranslateFrom, textWord.getText())).equals(textAnswer.getText())) { 
+			numWrong = 0;
+			numCorrect++;
+			textOutput.setText("Correct: " + numCorrect);
+			nextWord();
 		}
-		
-		//Else translate to Japanese is selected
+		//If user's answer isn't correct
 		else {
-			
-			//If the user's answer equals the element stored in the Japanese array
-			if (jpArray.get(findElement(enArray, textWord.getText())).equals(textAnswer.getText())) {
-				numWrong = 0;
-				numCorrect++;
-				textOutput.setText("Correct: " + numCorrect);
-				nextWord(); //Load next word
-			}
-			//If user's answer isn't correct
-			else {
-				numCorrect = 0;
-				numWrong++;
-				textOutput.setText("Incorrect: " + numWrong);
-			}
+			numCorrect = 0;
+			numWrong++;
+			textOutput.setText("Incorrect: " + numWrong);
 		}
 	}
 
