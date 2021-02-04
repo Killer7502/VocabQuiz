@@ -21,7 +21,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
 
 public class MainGUI {
 	
