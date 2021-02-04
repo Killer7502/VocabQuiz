@@ -276,11 +276,7 @@ public class MainGUI {
 	}
 
 	private void populateLanguageArrays(Scanner inFS) {
-		//String readLine;
 		while (inFS.hasNext()) {
-			//readLine = inFS.nextLine();
-			
-			//String[] tempArray = readLine.split(":", 2);
 			String[] tempArray = inFS.nextLine().split(":", 2);
 			enArray.add(tempArray[1]);
 			jpArray.add(tempArray[0]);
