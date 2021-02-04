@@ -76,7 +76,7 @@ public class MainGUI {
 	//Handles all events for the program
 	private void createEvents() {
 		
-		//Load an existing vocabulary list in the form of a text file.
+		//Load button pressed
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				loadData();
@@ -259,15 +259,7 @@ public class MainGUI {
 						fileInput = new FileInputStream(readFile);
 						inFS = new Scanner(fileInput);
 						
-						//Populate the en and jp arrays based off the data in the text file
-						while (inFS.hasNext()) {
-							readLine = inFS.nextLine();
-							
-							String[] tempArray = readLine.split(":", 2);
-							enArray.add(tempArray[1]);
-							jpArray.add(tempArray[0]);
-							Arrays.fill(tempArray, ""); 
-						}
+						populateLanguageArrays(inFS);
 				}
 				//If an issue arises when trying to open/read the file
 				catch (IOException e) {
@@ -281,6 +273,18 @@ public class MainGUI {
 		}
 		//Tell user that the data is loaded. FIXME: Fix to show when the data fails to load vs. when it actually loads
 		JOptionPane.showMessageDialog(frameMain, "Data Loaded");
+	}
+
+	private void populateLanguageArrays(Scanner inFS) {
+		String readLine;
+		while (inFS.hasNext()) {
+			readLine = inFS.nextLine();
+			
+			String[] tempArray = readLine.split(":", 2);
+			enArray.add(tempArray[1]);
+			jpArray.add(tempArray[0]);
+			Arrays.fill(tempArray, ""); 
+		}
 	}
 
 	/**
