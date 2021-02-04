@@ -144,7 +144,7 @@ public class MainGUI {
 					numCorrect = 0;
 					numWrong++;
 					textOutput.setText("Incorrect: " + numWrong);
-					nextWord();
+					loadNextWord();
 				}
 				//If game is not started
 				else {
@@ -176,7 +176,7 @@ public class MainGUI {
 	}
 	
 	//Loads the next Japanese word into the textWord TextBox and sets textAnswer to blank
-	private void nextWord() {
+	private void loadNextWord() {
 		currentNum++; //Keeps track of the current word that the game is on
 		//If currentNum is greater than or equal to the arraySize, end the game as all words have been completed.
 		if (currentNum >= jpArray.size()) {
@@ -253,7 +253,7 @@ public class MainGUI {
 			numWrong = 0;
 			numCorrect++;
 			textOutput.setText("Correct: " + numCorrect);
-			nextWord();
+			loadNextWord();
 		}
 		//If user's answer isn't correct
 		else {
