@@ -79,45 +79,7 @@ public class MainGUI {
 		//Load an existing vocabulary list in the form of a text file.
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int fileChooserVal = fileChooser.showOpenDialog(frameMain);
-				File readFile = null;
-				Scanner inFS = null;
-				FileInputStream fileInput = null; 
-				String readLine = null;
-				enArray = new ArrayList<String>();
-				jpArray = new ArrayList<String>();
-				
-				if (fileChooserVal == JFileChooser.APPROVE_OPTION) {
-					readFile = fileChooser.getSelectedFile();
-					
-					//If the file can be read from
-					if (readFile.canRead()) {
-						try {
-								fileInput = new FileInputStream(readFile);
-								inFS = new Scanner(fileInput);
-								
-								//Populate the en and jp arrays based off the data in the text file
-								while (inFS.hasNext()) {
-									readLine = inFS.nextLine();
-									
-									String[] tempArray = readLine.split(":", 2);
-									enArray.add(tempArray[1]);
-									jpArray.add(tempArray[0]);
-									Arrays.fill(tempArray, ""); 
-								}
-						}
-						//If an issue arises when trying to open/read the file
-						catch (IOException e) {
-							JOptionPane.showMessageDialog(frameMain, e);
-						}
-					}
-					//If the file can't be read from at all or if it's empty
-					else {
-						JOptionPane.showMessageDialog(frameMain, "File can't be opened or read from. Please try a different file");
-					}
-				}
-				//Tell user that the data is loaded. FIXME: Fix to show when the data fails to load vs. when it actually loads
-				JOptionPane.showMessageDialog(frameMain, "Data Loaded");
+				loadData();
 			}
 		});
 		
@@ -277,6 +239,48 @@ public class MainGUI {
 			}
 		}
 		return 0; //Return 0 if and only if no match is found above. FIXME: Add a catch just in case this case is ever reached.
+	}
+	
+	private void loadData() {
+		int fileChooserVal = fileChooser.showOpenDialog(frameMain);
+		File readFile = null;
+		Scanner inFS = null;
+		FileInputStream fileInput = null; 
+		String readLine = null;
+		enArray = new ArrayList<String>();
+		jpArray = new ArrayList<String>();
+		
+		if (fileChooserVal == JFileChooser.APPROVE_OPTION) {
+			readFile = fileChooser.getSelectedFile();
+			
+			//If the file can be read from
+			if (readFile.canRead()) {
+				try {
+						fileInput = new FileInputStream(readFile);
+						inFS = new Scanner(fileInput);
+						
+						//Populate the en and jp arrays based off the data in the text file
+						while (inFS.hasNext()) {
+							readLine = inFS.nextLine();
+							
+							String[] tempArray = readLine.split(":", 2);
+							enArray.add(tempArray[1]);
+							jpArray.add(tempArray[0]);
+							Arrays.fill(tempArray, ""); 
+						}
+				}
+				//If an issue arises when trying to open/read the file
+				catch (IOException e) {
+					JOptionPane.showMessageDialog(frameMain, e);
+				}
+			}
+			//If the file can't be read from at all or if it's empty
+			else {
+				JOptionPane.showMessageDialog(frameMain, "File can't be opened or read from. Please try a different file");
+			}
+		}
+		//Tell user that the data is loaded. FIXME: Fix to show when the data fails to load vs. when it actually loads
+		JOptionPane.showMessageDialog(frameMain, "Data Loaded");
 	}
 
 	/**
